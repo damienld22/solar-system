@@ -9,7 +9,7 @@ import mercury from "./models/mercury";
 import venus from "./models/venus";
 import mars from "./models/mars";
 import jupiter from "./models/jupiter";
-import saturn from "./models/saturn";
+import { rings as ringsSaturn, sphere as sphereSaturn } from "./models/saturn";
 import uranus from "./models/uranus";
 import neptune from "./models/neptune";
 
@@ -29,8 +29,8 @@ function main() {
   const camera = new THREE.PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
-    1,
-    500
+    0.1,
+    2000
   );
 
   camera.position.set(0, 0, 400);
@@ -42,7 +42,8 @@ function main() {
   scene.add(earth);
   scene.add(mars);
   scene.add(jupiter);
-  scene.add(saturn);
+  scene.add(sphereSaturn);
+  scene.add(ringsSaturn);
   scene.add(uranus);
   scene.add(neptune);
 
@@ -51,7 +52,9 @@ function main() {
   earth.position.x += 150;
   mars.position.x += 200;
   jupiter.position.x += 250;
-  saturn.position.x += 300;
+  sphereSaturn.position.x += 300;
+  ringsSaturn.position.x += 300;
+  ringsSaturn.rotation.x += 2;
   uranus.position.x += 350;
   neptune.position.x += 400;
 
