@@ -8,4 +8,3 @@
 - Names of planets
 - info box on planets and sun
 - Better navigation
-- Working on Github pages
