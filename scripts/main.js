@@ -5,6 +5,13 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 // Models
 import sun from "./models/sun";
 import earth from "./models/earth";
+import mercury from "./models/mercury";
+import venus from "./models/venus";
+import mars from "./models/mars";
+import jupiter from "./models/jupiter";
+import saturn from "./models/saturn";
+import uranus from "./models/uranus";
+import neptune from "./models/neptune";
 
 // Textures
 import bg from "./textures/background";
@@ -30,8 +37,23 @@ function main() {
 
   //  Add models
   scene.add(sun);
+  scene.add(mercury);
+  scene.add(venus);
   scene.add(earth);
-  earth.position.x += 50;
+  scene.add(mars);
+  scene.add(jupiter);
+  scene.add(saturn);
+  scene.add(uranus);
+  scene.add(neptune);
+
+  mercury.position.x += 50;
+  venus.position.x += 100;
+  earth.position.x += 150;
+  mars.position.x += 200;
+  jupiter.position.x += 250;
+  saturn.position.x += 300;
+  uranus.position.x += 350;
+  neptune.position.x += 400;
 
   // Add background
   scene.background = bg;
