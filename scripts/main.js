@@ -1,20 +1,24 @@
 import * as THREE from "three";
 import WebGL from "three/addons/capabilities/WebGL.js";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-
-// Models
-import sun from "./models/sun";
-import earth from "./models/earth";
-import mercury from "./models/mercury";
-import venus from "./models/venus";
-import mars from "./models/mars";
-import jupiter from "./models/jupiter";
-import { rings as ringsSaturn, sphere as sphereSaturn } from "./models/saturn";
-import uranus from "./models/uranus";
-import neptune from "./models/neptune";
+import Planet from "./factories/planet";
 
 // Textures
 import bg from "./textures/background";
+import mercuryTexture from "../assets/textures/mercury.jpg";
+import venusTexture from "../assets/textures/venus.jpg";
+import earthTexture from "../assets/textures/earth.jpg";
+import marsTexture from "../assets/textures/mars.jpg";
+import jupiterTexture from "../assets/textures/jupiter.jpg";
+import saturnTexture from "../assets/textures/saturn.jpg";
+import saturnRings from "../assets/textures/saturn_rings_color_map.jpg";
+import uranusTexture from "../assets/textures/uranus.jpg";
+import neptuneTexture from "../assets/textures/neptune.jpg";
+
+// Models
+import sun from "./models/sun";
+
+// Textures
 
 // Start
 if (WebGL.isWebGLAvailable()) {
@@ -27,36 +31,81 @@ if (WebGL.isWebGLAvailable()) {
 function main() {
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(
-    75,
+    50,
     window.innerWidth / window.innerHeight,
     0.1,
-    2000
+    100000
   );
+  camera.position.set(0, 0, 5000);
 
-  camera.position.set(0, 0, 400);
-
-  //  Add models
+  // SUN
   scene.add(sun);
-  scene.add(mercury);
-  scene.add(venus);
-  scene.add(earth);
-  scene.add(mars);
-  scene.add(jupiter);
-  scene.add(sphereSaturn);
-  scene.add(ringsSaturn);
-  scene.add(uranus);
-  scene.add(neptune);
 
-  mercury.position.x += 50;
-  venus.position.x += 100;
-  earth.position.x += 150;
-  mars.position.x += 200;
-  jupiter.position.x += 250;
-  sphereSaturn.position.x += 300;
-  ringsSaturn.position.x += 300;
-  ringsSaturn.rotation.x += 2;
-  uranus.position.x += 350;
-  neptune.position.x += 400;
+  // PLANETS
+  const mercury = new Planet({
+    name: "Mercury",
+    diameter: 4879.4,
+    starDistance: 57909000,
+    background: mercuryTexture,
+    scene,
+  });
+
+  const venus = new Planet({
+    name: "Venus",
+    diameter: 12103.6,
+    starDistance: 108160000,
+    background: venusTexture,
+    scene,
+  });
+
+  const earth = new Planet({
+    name: "Earth",
+    diameter: 12756.3,
+    starDistance: 149600000,
+    background: earthTexture,
+    scene,
+  });
+
+  const mars = new Planet({
+    name: "Mars",
+    diameter: 6792.4,
+    starDistance: 227990000,
+    background: marsTexture,
+    scene,
+  });
+
+  const jupiter = new Planet({
+    name: "Jupiter",
+    diameter: 142984,
+    starDistance: 778360000,
+    background: jupiterTexture,
+    scene,
+  });
+
+  const saturn = new Planet({
+    name: "Saturn",
+    diameter: 120536,
+    starDistance: 1433500000,
+    background: saturnTexture,
+    scene,
+  });
+  saturn.addRings(saturnRings);
+
+  const uranus = new Planet({
+    name: "Uranus",
+    diameter: 51118,
+    starDistance: 2872400000,
+    background: uranusTexture,
+    scene,
+  });
+
+  const neptune = new Planet({
+    name: "Neptune",
+    diameter: 49528,
+    starDistance: 449840000,
+    background: neptuneTexture,
+    scene,
+  });
 
   // Add background
   scene.background = bg;
