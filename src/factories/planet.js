@@ -3,15 +3,13 @@ import config from "../../config.json";
 const { planetSizeRatio, starDistanceRatio } = config;
 
 class Planet {
-  constructor({ name, diameter, background, starDistance, scene }) {
+  constructor({ name, diameter, background, starDistance }) {
     this.name = name;
     this.diameter = diameter;
     this.background = background;
     this.starDistance = starDistance;
-    this.scene = scene;
-
-    // Add sphere
-    this.#addToScene(this.#generateSphereMesh());
+    this.hasRings = false;
+    this.ringsBackground = null;
   }
 
   #generateSphereMesh() {
@@ -22,10 +20,8 @@ class Planet {
   }
 
   #generateRingsMesh(background) {
-    const ringsGeometry = new THREE.RingGeometry(
-      (this.diameter * 2) / planetSizeRatio,
-      12
-    );
+    const innerRadius = (this.diameter * 2) / planetSizeRatio;
+    const ringsGeometry = new THREE.RingGeometry(innerRadius, innerRadius - 40);
     const ringsTexture = new THREE.TextureLoader().load(background);
     const ringsMaterial = new THREE.MeshBasicMaterial({
       map: ringsTexture,
@@ -38,13 +34,20 @@ class Planet {
   }
 
   addRings(background) {
-    this.#addToScene(this.#generateRingsMesh(background));
+    this.hasRings = true;
+    this.ringsBackground = background;
   }
 
-  #addToScene(mesh) {
-    // Set position to star
-    mesh.position.x = this.starDistance / starDistanceRatio;
-    this.scene.add(mesh);
+  draw(scene) {
+    const sphereMesh = this.#generateSphereMesh();
+    sphereMesh.position.x = this.starDistance / starDistanceRatio;
+    scene.add(sphereMesh);
+
+    if (this.hasRings) {
+      const ringsMesh = this.#generateRingsMesh(this.ringsBackground);
+      ringsMesh.position.x = this.starDistance / starDistanceRatio;
+      scene.add(ringsMesh);
+    }
   }
 }
 

@@ -2,7 +2,6 @@
 
 ## To Do
 
-- Better organization or files
 - Loader
 - Orbit on each planet
 - Real time position on orbit
