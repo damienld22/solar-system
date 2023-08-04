@@ -3,7 +3,6 @@
 ## To Do
 
 - Loader
-- Orbit on each planet
 - Real time position on orbit
 - Names of planets
 - info box on planets and sun
@@ -11,3 +10,4 @@
 - Size configurable
 - Distance configurable
 - Orbit inclinaisons
+- Use TypeScript

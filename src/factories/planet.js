@@ -3,11 +3,17 @@ import config from "../../config.json";
 const { planetSizeRatio, starDistanceRatio } = config;
 
 class Planet {
-  constructor({ name, diameter, background, starDistance }) {
+  constructor({ name, diameter, background, aphelion, eccentricity }) {
     this.name = name;
     this.diameter = diameter;
     this.background = background;
-    this.starDistance = starDistance;
+    this.semiMajorAxis = aphelion / starDistanceRatio;
+    this.eccentricity = eccentricity;
+    this.semiMinorAxis =
+      this.semiMajorAxis * Math.sqrt(1 - Math.pow(this.eccentricity, 2));
+    this.linearEccentricity = Math.sqrt(
+      Math.pow(this.semiMajorAxis, 2) - Math.pow(this.semiMinorAxis, 2)
+    );
     this.hasRings = false;
     this.ringsBackground = null;
   }
@@ -33,21 +39,48 @@ class Planet {
     return ringsMesh;
   }
 
+  #generateEllipse() {
+    const curve = new THREE.EllipseCurve(
+      +this.linearEccentricity, // Sun is the second focus of the ellipse
+      0,
+      this.semiMajorAxis,
+      this.semiMinorAxis,
+      0,
+      2 * Math.PI,
+      false,
+      1
+    );
+    const points = curve.getPoints(50);
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    const material = new THREE.LineBasicMaterial({ color: "#FFFFFF" });
+    const line = new THREE.Line(geometry, material);
+
+    line.rotation.x += 90 * (Math.PI / 180); // 90° to radians
+
+    return line;
+  }
+
   addRings(background) {
     this.hasRings = true;
     this.ringsBackground = background;
   }
 
   draw(scene) {
+    // Planet
     const sphereMesh = this.#generateSphereMesh();
-    sphereMesh.position.x = this.starDistance / starDistanceRatio;
+    sphereMesh.position.x = this.semiMajorAxis + this.linearEccentricity;
     scene.add(sphereMesh);
 
+    // Rings
     if (this.hasRings) {
       const ringsMesh = this.#generateRingsMesh(this.ringsBackground);
-      ringsMesh.position.x = this.starDistance / starDistanceRatio;
+      ringsMesh.position.x = this.semiMajorAxis + this.linearEccentricity;
       scene.add(ringsMesh);
     }
+
+    // Ellipse
+    const ellipseMesh = this.#generateEllipse();
+    scene.add(ellipseMesh);
   }
 }
 

@@ -2,7 +2,6 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import sunGenerator from "./utils/sun-generator";
 import planetsGenerator from "./utils/planets-generator";
-import Ellipse from "./factories/ellipse";
 
 function main() {
   // Scene
@@ -33,12 +32,6 @@ function main() {
     controls.update();
     renderer.render(scene, camera);
   }
-
-  const earthEllipse = new Ellipse({
-    eccentricity: 0.01671123,
-    radius: 149600000,
-    scene,
-  });
 
   animate();
 }
