@@ -18,8 +18,6 @@ import neptuneTexture from "../assets/textures/neptune.jpg";
 // Models
 import sun from "./models/sun";
 
-// Textures
-
 // Start
 if (WebGL.isWebGLAvailable()) {
   main();
@@ -102,7 +100,7 @@ function main() {
   const neptune = new Planet({
     name: "Neptune",
     diameter: 49528,
-    starDistance: 449840000,
+    starDistance: 4498400000,
     background: neptuneTexture,
     scene,
   });
