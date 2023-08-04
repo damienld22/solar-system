@@ -2,6 +2,7 @@ import * as THREE from "three";
 import WebGL from "three/addons/capabilities/WebGL.js";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import Planet from "./factories/planet";
+import Ellipse from "./factories/ellipse";
 
 // Textures
 import bg from "./textures/background";
@@ -34,7 +35,7 @@ function main() {
     0.1,
     100000
   );
-  camera.position.set(0, 0, 5000);
+  camera.position.set(0, 1000, 5000);
 
   // SUN
   scene.add(sun);
@@ -102,6 +103,12 @@ function main() {
     diameter: 49528,
     starDistance: 4498400000,
     background: neptuneTexture,
+    scene,
+  });
+
+  const earthEllipse = new Ellipse({
+    eccentricity: 0.01671123,
+    radius: 149600000,
     scene,
   });
 

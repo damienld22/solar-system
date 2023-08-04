@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import config from "../../config.json";
-const { planetSizeRatio, starDistanceRatio, starDistanceOffset } = config;
+const { planetSizeRatio, starDistanceRatio } = config;
 
 class Planet {
   constructor({ name, diameter, background, starDistance, scene }) {
@@ -43,8 +43,7 @@ class Planet {
 
   #addToScene(mesh) {
     // Set position to star
-    mesh.position.x =
-      this.starDistance / starDistanceRatio + starDistanceOffset;
+    mesh.position.x = this.starDistance / starDistanceRatio;
     this.scene.add(mesh);
   }
 }
