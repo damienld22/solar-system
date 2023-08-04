@@ -22,6 +22,7 @@ export default function planetsGenerator(scene) {
     aphelion: 69_816_900,
     background: mercuryTexture,
     eccentricity: 0.2056,
+    inclination: 7,
   });
   mercury.draw(scene);
 
@@ -32,6 +33,7 @@ export default function planetsGenerator(scene) {
     aphelion: 108_943_000,
     background: venusTexture,
     eccentricity: 0.00678,
+    inclination: 3.39471,
   });
   venus.draw(scene);
 
@@ -42,6 +44,7 @@ export default function planetsGenerator(scene) {
     aphelion: 152_097_701,
     background: earthTexture,
     eccentricity: 0.01671123,
+    inclination: 0,
   });
   earth.draw(scene);
 
@@ -52,6 +55,7 @@ export default function planetsGenerator(scene) {
     aphelion: 249_230_000,
     background: marsTexture,
     eccentricity: 0.09339,
+    inclination: 1.85,
   });
   mars.draw(scene);
 
@@ -62,6 +66,7 @@ export default function planetsGenerator(scene) {
     aphelion: 816_000_000,
     background: jupiterTexture,
     eccentricity: 0.04839,
+    inclination: 1.304,
   });
   jupiter.draw(scene);
 
@@ -72,6 +77,7 @@ export default function planetsGenerator(scene) {
     aphelion: 1_503_500_000,
     background: saturnTexture,
     eccentricity: 0.0539,
+    inclination: 2.486,
   });
   saturn.addRings(saturnRings);
   saturn.draw(scene);
@@ -83,6 +89,7 @@ export default function planetsGenerator(scene) {
     aphelion: 3_006_300_000,
     background: uranusTexture,
     eccentricity: 0.04726,
+    inclination: 0.77323,
   });
   uranus.draw(scene);
 
@@ -93,6 +100,7 @@ export default function planetsGenerator(scene) {
     aphelion: 4_537_000_000,
     background: neptuneTexture,
     eccentricity: 0.00859,
+    inclination: 1.77,
   });
   neptune.draw(scene);
 }

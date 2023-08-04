@@ -9,5 +9,6 @@
 - Better navigation (conditional Fly controls)
 - Size configurable
 - Distance configurable
-- Orbit inclinaisons
 - Use TypeScript
+- Add pluto
+- Panneau de configuration (pluto, control, name of planets, realtime, etc...)

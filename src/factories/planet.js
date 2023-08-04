@@ -3,12 +3,20 @@ import config from "../../config.json";
 const { planetSizeRatio, starDistanceRatio } = config;
 
 class Planet {
-  constructor({ name, diameter, background, aphelion, eccentricity }) {
+  constructor({
+    name,
+    diameter,
+    background,
+    aphelion,
+    eccentricity,
+    inclination,
+  }) {
     this.name = name;
     this.diameter = diameter;
     this.background = background;
     this.semiMajorAxis = aphelion / starDistanceRatio;
     this.eccentricity = eccentricity;
+    this.inclination = inclination;
     this.semiMinorAxis =
       this.semiMajorAxis * Math.sqrt(1 - Math.pow(this.eccentricity, 2));
     this.linearEccentricity = Math.sqrt(
@@ -80,6 +88,7 @@ class Planet {
 
     // Ellipse
     const ellipseMesh = this.#generateEllipse();
+    ellipseMesh.rotation.x += this.inclination * (Math.PI / 180); // ° to radians
     scene.add(ellipseMesh);
   }
 }
