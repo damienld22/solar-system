@@ -19,12 +19,12 @@ function main() {
   const renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
 
+  // Add to DOM
+  document.body.appendChild(renderer.domElement);
+
   // Add controls
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.update();
-
-  // Add to DOM
-  document.body.appendChild(renderer.domElement);
 
   // Render function
   function animate() {
