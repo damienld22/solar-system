@@ -7,7 +7,7 @@
   "scripts": {
     "start": "vite",
     "build": "vite build --base=/solar-system",
-    "deploy": "gh-pages -d dist"
+    "deploy": "npm run build && gh-pages -d dist"
   },
   "author": "",
   "license": "ISC",

@@ -1,4 +1,6 @@
 import * as THREE from "three";
+import { TextGeometry } from "three/addons/geometries/TextGeometry.js";
+import { FontLoader } from "three/addons/loaders/FontLoader.js";
 import config from "../../config.json";
 const { planetSizeRatio, starDistanceRatio } = config;
 
@@ -24,6 +26,29 @@ class Planet {
     );
     this.hasRings = false;
     this.ringsBackground = null;
+  }
+
+  async #generatorNameMesh() {
+    return new Promise((resolve) => {
+      const loader = new FontLoader();
+      loader.load(
+        // resource URL
+        "https://threejs.org/examples/fonts/helvetiker_regular.typeface.json",
+
+        // onLoad callback
+        (font) => {
+          const nameGeometry = new TextGeometry(this.name, {
+            font,
+            size: this.diameter / config.planetSizeRatio,
+            height: 1,
+          });
+          const nameMaterial = new THREE.MeshBasicMaterial({
+            color: "#FFFFFF",
+          });
+          resolve(new THREE.Mesh(nameGeometry, nameMaterial));
+        }
+      );
+    });
   }
 
   #generateSphereMesh() {
@@ -73,16 +98,18 @@ class Planet {
     this.ringsBackground = background;
   }
 
-  draw(scene) {
+  async draw(scene) {
+    const xPosition = this.semiMajorAxis + this.linearEccentricity;
+
     // Planet
     const sphereMesh = this.#generateSphereMesh();
-    sphereMesh.position.x = this.semiMajorAxis + this.linearEccentricity;
+    sphereMesh.position.x = xPosition;
     scene.add(sphereMesh);
 
     // Rings
     if (this.hasRings) {
       const ringsMesh = this.#generateRingsMesh(this.ringsBackground);
-      ringsMesh.position.x = this.semiMajorAxis + this.linearEccentricity;
+      ringsMesh.position.x = xPosition;
       scene.add(ringsMesh);
     }
 
@@ -90,6 +117,15 @@ class Planet {
     const ellipseMesh = this.#generateEllipse();
     ellipseMesh.rotation.x += this.inclination * (Math.PI / 180); // ° to radians
     scene.add(ellipseMesh);
+
+    // Text
+    const textMesh = await this.#generatorNameMesh();
+    const boundingBoxText = new THREE.Box3().setFromObject(textMesh);
+    const widthText = boundingBoxText.max.x - boundingBoxText.min.x;
+    textMesh.position.x = xPosition - widthText / 2;
+    const ratioDiameter = this.diameter / config.planetSizeRatio;
+    textMesh.position.y = ratioDiameter + ratioDiameter * 0.5;
+    scene.add(textMesh);
   }
 }
 
