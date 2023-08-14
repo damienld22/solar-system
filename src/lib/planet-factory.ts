@@ -1,10 +1,31 @@
 import * as THREE from "three";
-import { TextGeometry } from "three/addons/geometries/TextGeometry.js";
-import { FontLoader } from "three/addons/loaders/FontLoader.js";
-import config from "../../config.json";
+import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
+import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
+import config from "$lib/assets/config.json";
 const { planetSizeRatio, starDistanceRatio } = config;
 
+
+export type PlanetProps = {
+  name: string;
+  diameter: number;
+  background: string;
+  aphelion: number;
+  eccentricity: number;
+  inclination: number;
+}
+
 class Planet {
+  name: string;
+  diameter: number;
+  background: string;
+  semiMajorAxis: number;
+  semiMinorAxis: number;
+  eccentricity: number;
+  inclination: number;
+  linearEccentricity: number;
+  hasRings: boolean;
+  ringsBackground?: string;
+
   constructor({
     name,
     diameter,
@@ -12,7 +33,7 @@ class Planet {
     aphelion,
     eccentricity,
     inclination,
-  }) {
+  }: PlanetProps) {
     this.name = name;
     this.diameter = diameter;
     this.background = background;
@@ -25,10 +46,9 @@ class Planet {
       Math.pow(this.semiMajorAxis, 2) - Math.pow(this.semiMinorAxis, 2)
     );
     this.hasRings = false;
-    this.ringsBackground = null;
   }
 
-  async #generatorNameMesh() {
+  async #generatorNameMesh(): Promise<THREE.Mesh> {
     return new Promise((resolve) => {
       const loader = new FontLoader();
       loader.load(
@@ -36,7 +56,7 @@ class Planet {
         "https://threejs.org/examples/fonts/helvetiker_regular.typeface.json",
 
         // onLoad callback
-        (font) => {
+        (font: string) => {
           const nameGeometry = new TextGeometry(this.name, {
             font,
             size: this.diameter / config.planetSizeRatio,
@@ -58,7 +78,7 @@ class Planet {
     return new THREE.Mesh(geometry, material);
   }
 
-  #generateRingsMesh(background) {
+  #generateRingsMesh(background: string) {
     const innerRadius = (this.diameter * 2) / planetSizeRatio;
     const ringsGeometry = new THREE.RingGeometry(innerRadius, innerRadius - 40);
     const ringsTexture = new THREE.TextureLoader().load(background);
@@ -93,12 +113,12 @@ class Planet {
     return line;
   }
 
-  addRings(background) {
+  addRings(background: string) {
     this.hasRings = true;
     this.ringsBackground = background;
   }
 
-  async draw(scene) {
+  async draw(scene: THREE.Scene) {
     const xPosition = this.semiMajorAxis + this.linearEccentricity;
 
     // Planet
@@ -108,7 +128,7 @@ class Planet {
 
     // Rings
     if (this.hasRings) {
-      const ringsMesh = this.#generateRingsMesh(this.ringsBackground);
+      const ringsMesh = this.#generateRingsMesh(this.ringsBackground as string);
       ringsMesh.position.x = xPosition;
       scene.add(ringsMesh);
     }

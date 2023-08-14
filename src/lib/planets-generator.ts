@@ -1,20 +1,20 @@
-import Planet from "../factories/planet";
-import mercuryTexture from "../../assets/textures/mercury.jpg";
-import venusTexture from "../../assets/textures/venus.jpg";
-import earthTexture from "../../assets/textures/earth.jpg";
-import marsTexture from "../../assets/textures/mars.jpg";
-import jupiterTexture from "../../assets/textures/jupiter.jpg";
-import saturnTexture from "../../assets/textures/saturn.jpg";
-import saturnRings from "../../assets/textures/saturn_rings_color_map.jpg";
-import uranusTexture from "../../assets/textures/uranus.jpg";
-import neptuneTexture from "../../assets/textures/neptune.jpg";
+import Planet from "./planet-factory";
+import mercuryTexture from "$lib/assets/textures/mercury.jpg";
+import venusTexture from "$lib/assets/textures/venus.jpg";
+import earthTexture from "$lib/assets/textures/earth.jpg";
+import marsTexture from "$lib/assets/textures/mars.jpg";
+import jupiterTexture from "$lib/assets/textures/jupiter.jpg";
+import saturnTexture from "$lib/assets/textures/saturn.jpg";
+import saturnRings from "$lib/assets/textures/saturn_rings_color_map.jpg";
+import uranusTexture from "$lib/assets/textures/uranus.jpg";
+import neptuneTexture from "$lib/assets/textures/neptune.jpg";
 
 /**
  * Generate and draw all planets
  *
- * @param {object} scene Three scene
+ * @param scene Three scene
  */
-export default function planetsGenerator(scene) {
+export default function planetsGenerator(scene: THREE.Scene) {
   // Mercury
   const mercury = new Planet({
     name: "Mercury",
